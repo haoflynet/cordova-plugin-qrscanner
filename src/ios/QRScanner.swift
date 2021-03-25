@@ -61,6 +61,8 @@ class QRScanner : CDVPlugin, AVCaptureMetadataOutputObjectsDelegate {
     var scanning: Bool = false
     var paused: Bool = false
     var nextScanningCommand: CDVInvokedUrlCommand?
+    
+    var originalBackgroundColor: UIColor?;
 
     enum QRScannerError: Int32 {
         case unexpected_error = 0,
@@ -198,7 +200,7 @@ class QRScanner : CDVPlugin, AVCaptureMetadataOutputObjectsDelegate {
 
     @objc func makeOpaque(){
         self.webView?.isOpaque = false
-        self.webView?.backgroundColor = UIColor.clear
+        self.webView?.backgroundColor = self.originalBackgroundColor
     }
 
     @objc func boolToNumberString(bool: Bool) -> String{
@@ -291,6 +293,7 @@ class QRScanner : CDVPlugin, AVCaptureMetadataOutputObjectsDelegate {
 
     @objc func show(_ command: CDVInvokedUrlCommand) {
         self.webView?.isOpaque = false
+        self.originalBackgroundColor = self.webView?.backgroundColor
         self.webView?.backgroundColor = UIColor.clear
         self.getStatus(command)
     }
@@ -489,3 +492,4 @@ class QRScanner : CDVPlugin, AVCaptureMetadataOutputObjectsDelegate {
         }
     }
 }
+
